@@ -6,9 +6,9 @@ class Requests(db.Model,SerializerMixin):
     __tablename__ ='requests'
     
     id = db.Column(db.Integer, primary_key=True)
-    asset_id = db.Column(db.Integer)
-    user_id = db.Column(db.Integer)
-    admin_id = db.Column(db.Integer)
+    asset_id = db.Column(db.Integer, db.ForeignKey('asset.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    admin_id = db.Column(db.Integer, db.ForeignKey('admin.id'))
     comment = db.Column(db.String)
     status = db.Column(db.String)
     assigneddate = db.Column(db.Date)
