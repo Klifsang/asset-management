@@ -3,8 +3,9 @@ from sqlalchemy_serializer import SerializerMixin
 from app import db
 
 class Employee(db.Model, SerializerMixin):
-    id = db.Column(db.Integer, primary_key=True)
+    __tablename__ = 'employees'
     
+    id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     department = db.Column(db.String(80), nullable=False)
     address = db.Column(db.String(80), nullable=False)
@@ -12,6 +13,7 @@ class Employee(db.Model, SerializerMixin):
     phonenumber = db.Column(db.String(80), nullable=False)
     password = db.Column(db.String(80), nullable=False)
     
+    requests = db.relationship("Requests", backref="employees")
 # Table Employee {
 #   id integer
 #   username varchar
