@@ -11,7 +11,7 @@ class Assets(db.Model, SerializerMixin):
     condition = db.Column(db.String)
     availability = db.Column(db.String)
     
-    requests = db.relationship("Requests", backref="assets")
+    # requests = db.relationship("Requests", backref="assets")
     
 # Table Assets {
 #   id integer

@@ -15,8 +15,8 @@ class Requests(db.Model,SerializerMixin):
     returndate = db.Column(db.Date)
     returnstatus = db.Column(db.String)
     
-    assets = db.relationship("Asset", backref="requests")
-    employees = db.relationship("Employee", backref="requests")
+    asset = db.relationship("Assets", backref="requests")
+    employee = db.relationship("Employee", backref="requests")
     admin = db.relationship("Admin", backref="requests")
     
 # Table Requests {

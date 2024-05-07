@@ -13,7 +13,7 @@ class Employee(db.Model, SerializerMixin):
     phonenumber = db.Column(db.String(80), nullable=False)
     password = db.Column(db.String(80), nullable=False)
     
-    requests = db.relationship("Requests", backref="employees")
+    # requests = db.relationship("Requests", backref="employee")
 # Table Employee {
 #   id integer
 #   username varchar

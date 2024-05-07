@@ -12,7 +12,7 @@ class Admin(db.Model, SerializerMixin):
     address = db.Column(db.String(255))  # Increased length
     role = db.Column(db.String(50))  # Increased length
     
-    requests = db.relationship("Requests", backref="admin")
+    # requests = db.relationship("Requests", backref="admin")
     def __repr__(self):
         return f"<Admin {self.username}>"
 
