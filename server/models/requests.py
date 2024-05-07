@@ -6,8 +6,8 @@ class Requests(db.Model,SerializerMixin):
     __tablename__ ='requests'
     
     id = db.Column(db.Integer, primary_key=True)
-    asset_id = db.Column(db.Integer, db.ForeignKey('asset.id'))
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    asset_id = db.Column(db.Integer, db.ForeignKey('assets.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('employees.id'))
     admin_id = db.Column(db.Integer, db.ForeignKey('admin.id'))
     comment = db.Column(db.String)
     status = db.Column(db.String)
@@ -16,7 +16,7 @@ class Requests(db.Model,SerializerMixin):
     returnstatus = db.Column(db.String)
     
     assets = db.relationship("Asset", backref="requests")
-    employees = db.relationship("User", backref="requests")
+    employees = db.relationship("Employee", backref="requests")
     admin = db.relationship("Admin", backref="requests")
     
 # Table Requests {
