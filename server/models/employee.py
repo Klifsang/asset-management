@@ -1,6 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_serializer import SerializerMixin
-from databaseconfig import db
+from app import db
 
 class Employee(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)

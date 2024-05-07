@@ -1,6 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_serializer import SerializerMixin
-from databaseconfig import db
+from app import db
 
 class Requests(db.Model,SerializerMixin):
     __tablename__ ='requests'
