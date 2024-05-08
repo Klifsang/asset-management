@@ -1,28 +1,35 @@
+# app.py
+from flask import Flask, jsonify, make_response, redirect, request, session, url_for
 from functools import wraps
-from flask import Flask, jsonify, make_response, redirect, request, url_for
+from flask_cors import CORS
 from flask_migrate import Migrate
+from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
+from config import ApplicationConfig
+import os
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///app.db"
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config.from_object(ApplicationConfig)
 
+CORS(app, supports_credentials=True)
 db = SQLAlchemy()
-
 migrate = Migrate(app, db)
-
+server_session = Session(app)
 db.init_app(app)
 
 from models import admin, assets, requests, employee
-username = 'Klif'
-app.secret_key = 'abc123@assets#manager.com'
+user_name = 'Klif'
+pass_word = '5100'
+
+app.secret_key = os.urandom(24)
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        # username = request.cookies.get('username')
-        if username != 'Kliff':
-            # return jsonify({'message': 'This is a protected page'})
-            return redirect(url_for('login'))
+        # username = session['username']
+        # print(username)
+        if 'username' not in session:
+            return jsonify({'message': 'This is a protected page'})
+            # return redirect(url_for('login'))
         return f(*args, **kwargs)
     return decorated_function
 
@@ -31,24 +38,40 @@ def login_required(f):
 def home():
     return jsonify({'username': 'admin', 'password': 'password'})
 
-def login():
-    if request.method == 'POST':
-        data = request.get_json()
-        username = data.get('username')
-        password = data.get('password')
-        pass
-    return jsonify({'message': 'please login'})
+@app.route('/register', methods=['POST'])
+def register():
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
 
-app.add_url_rule('/login', 'login', login, methods=['GET', 'POST'])
+    if email != user_name or password != pass_word:
+        return jsonify({'message': 'Invalid credentials'}), 401
+
+    resp = make_response(jsonify({'message': 'Login successful'}), 200)
+    session['email'] = email  # Store email in session
+    print(session)
+    return resp
+
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
+
+    if email != user_name or password != pass_word:
+        return jsonify({'message': 'Invalid credentials'}), 401
+
+    # Set a cookie to mark the user as authenticated
+    resp = make_response(jsonify({'message': 'Login successful'}), 200)
+    session['email'] = email  # Store email in session
+    print(session)
+    return resp
 
 @app.route('/logout')
 def logout():
     resp = make_response(jsonify({'message': 'Logout successful'}), 200)
-    resp.set_cookie('username', '', expires=0)  # Remove the cookie
+    session.pop('email', None)  # Remove username from session
     return resp
-
-
 
 if __name__ == '__main__':
     app.run(debug=True)
-
