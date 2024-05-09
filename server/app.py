@@ -4,15 +4,15 @@ from functools import wraps
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_session import Session
-from flask_sqlalchemy import SQLAlchemy
 from config import ApplicationConfig
+from models.databaseconfig import db
 import os
 
 app = Flask(__name__)
 app.config.from_object(ApplicationConfig)
 
 CORS(app, supports_credentials=True)
-db = SQLAlchemy()
+# db = SQLAlchemy()
 migrate = Migrate(app, db)
 server_session = Session(app)
 db.init_app(app)
