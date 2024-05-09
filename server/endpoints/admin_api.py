@@ -1,6 +1,7 @@
 from flask import request
 from ..models.admin import Admin
 from ..models.databaseconfig import db
+from app import bcrypt
 def register_admin():
     data = request.get_json()
     email = data.get('email')
@@ -10,7 +11,7 @@ def register_admin():
     address = data.get('address')
     role = data.get('role')
     
-    admin = Admin(email=email, password=password, username=usernames, phonenumber=phonenumber, address=address, role=role)
+    admin = Admin(email=email, password=bcrypt.generate_password_hash(password), username=usernames, phonenumber=phonenumber, address=address, role=role)
     db.session.add(admin)
     db.session.commit()
     

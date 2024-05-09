@@ -6,13 +6,14 @@ from flask_migrate import Migrate
 from flask_session import Session
 from config import ApplicationConfig
 from models.databaseconfig import db
+from flask_bcrypt import Bcrypt
 import os
 
 app = Flask(__name__)
 app.config.from_object(ApplicationConfig)
 
 CORS(app, supports_credentials=True)
-# db = SQLAlchemy()
+bcrypt = Bcrypt(app)
 migrate = Migrate(app, db)
 server_session = Session(app)
 db.init_app(app)

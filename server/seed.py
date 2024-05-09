@@ -1,9 +1,7 @@
 from models import admin, assets, requests, employee
-from app import app
+from app import bcrypt, app
 from models.databaseconfig import db
-from flask_bcrypt import Bcrypt
 
-bcrypt = Bcrypt(app)
 
 with app.app_context():
     # Assets
