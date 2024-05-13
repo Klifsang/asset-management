@@ -7,9 +7,11 @@ from flask_session import Session
 from config import ApplicationConfig
 from models.databaseconfig import db
 from flask_bcrypt import Bcrypt
-from endpoints.employee_api import delete_employee, patch_employee, register_employee, login_employee,get_current_user,logout_employee
+from endpoints.employee_api import delete_employee, patch_employee, register_employee
 from endpoints.admin_api import delete_admin, patch_admin, register_admin
 from endpoints.assets_api import add_assets, delete_assets, patch_assets
+from endpoints.requests_api import add_requests, patch_requests, delete_requests
+from endpoints.auth_api import get_current_user, login, logout
 import os
 
 app = Flask(
@@ -48,25 +50,32 @@ def home():
     return send_from_directory(app.static_folder, 'index.html')
 
 # endpoints
-# employees
+    # employees
 app.add_url_rule('/user/register', 'register', register_employee, methods=['POST'])
-app.add_url_rule('/user/login', 'login', login_employee, methods=['POST'])
 app.add_url_rule('/user/delete', 'delete', delete_employee, methods=['POST'])
 app.add_url_rule('/user/update', 'update', patch_employee, methods=['POST'])
-app.add_url_rule('/logout', 'logout', logout_employee, methods=['POST'])
 
-# admin
+
+    # admin
 app.add_url_rule('/admin/register', 'register', register_admin, methods=['POST'])
 app.add_url_rule('/admin/delete', 'delete', delete_admin, methods=['POST'])
 app.add_url_rule('/admin/update', 'update', patch_admin, methods=['POST'])
 
 
-# assets
+    # assets
 app.add_url_rule('/assets/add', 'add', add_assets, methods=['POST'])
 app.add_url_rule('/assets/delete', 'delete', delete_assets, methods=['POST'])
-app.add_url_rule('/assets/add', 'add', add_assets, methods=['POST'])
+app.add_url_rule('/assets/update', 'update', patch_assets, methods=['POST'])
 
+    # requests
+app.add_url_rule('/requests/add', 'add', add_requests, methods=['POST'])
+app.add_url_rule('/requests/delete', 'delete', delete_requests, methods=['POST'])
+app.add_url_rule('/requests/update', 'update', patch_requests, methods=['POST'])
+
+    # Authentication
 app.add_url_rule('/checksession', 'checksession', get_current_user, methods=['POST'])
+app.add_url_rule('/user/login', 'login', login, methods=['POST'])
+app.add_url_rule('/logout', 'logout', logout, methods=['POST'])
 
 if __name__ == '__main__':
     app.run(debug=True)
