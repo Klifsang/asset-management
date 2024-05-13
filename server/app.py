@@ -51,26 +51,26 @@ def home():
 
 # endpoints
     # employees
-app.add_url_rule('/user/register', 'register', register_employee, methods=['POST'])
-app.add_url_rule('/user/delete', 'delete', delete_employee, methods=['POST'])
-app.add_url_rule('/user/update', 'update', patch_employee, methods=['POST'])
+app.add_url_rule('/user/register', 'register_employee', register_employee, methods=['POST'])
+app.add_url_rule('/user/delete', 'delete_employee', delete_employee, methods=['DELETE'])
+app.add_url_rule('/user/update', 'patch_employee', patch_employee, methods=['PATCH'])
 
 
     # admin
-app.add_url_rule('/admin/register', 'register', register_admin, methods=['POST'])
-app.add_url_rule('/admin/delete', 'delete', delete_admin, methods=['POST'])
-app.add_url_rule('/admin/update', 'update', patch_admin, methods=['POST'])
+app.add_url_rule('/admin/register', 'register_admin', register_admin, methods=['POST'])
+app.add_url_rule('/admin/delete', 'delete_admin', delete_admin, methods=['DELETE'])
+app.add_url_rule('/admin/update', 'patch_admin', patch_admin, methods=['PATCH'])
 
 
     # assets
-app.add_url_rule('/assets/add', 'add', add_assets, methods=['POST'])
-app.add_url_rule('/assets/delete', 'delete', delete_assets, methods=['POST'])
-app.add_url_rule('/assets/update', 'update', patch_assets, methods=['POST'])
+app.add_url_rule('/assets/add', 'add_assets', add_assets, methods=['POST'])
+app.add_url_rule('/assets/delete', 'delete_assets', delete_assets, methods=['DELETE'])
+app.add_url_rule('/assets/update', 'patch_assets', patch_assets, methods=['PATCH'])
 
     # requests
-app.add_url_rule('/requests/add', 'add', add_requests, methods=['POST'])
-app.add_url_rule('/requests/delete', 'delete', delete_requests, methods=['POST'])
-app.add_url_rule('/requests/update', 'update', patch_requests, methods=['POST'])
+app.add_url_rule('/requests/add', 'add_requests', add_requests, methods=['POST'])
+app.add_url_rule('/requests/delete', 'delete_requests', delete_requests, methods=['DELETE'])
+app.add_url_rule('/requests/update', 'patch_requests', patch_requests, methods=['PATCH'])
 
     # Authentication
 app.add_url_rule('/checksession', 'checksession', get_current_user, methods=['POST'])

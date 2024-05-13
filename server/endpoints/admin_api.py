@@ -15,7 +15,7 @@ def register_admin():
     admin = Admin(email=email, password=bcrypt.generate_password_hash(password), username=usernames, phonenumber=phonenumber, address=address, role=role)
     db.session.add(admin)
     db.session.commit()
-    
+    return {"message": "Admin added successfully"}, 201 
 def delete_admin():
     data = request.get_json()
     id = data.get('id')
@@ -23,7 +23,7 @@ def delete_admin():
     if admin:
         db.session.delete(admin)
         db.session.commit()
-        
+    return {"message": "Admin deleted successfully"}, 201   
 
 def patch_admin():
     data = request.get_json()
@@ -33,7 +33,7 @@ def patch_admin():
         for key, value in data.items():
             setattr(admin, key, value)
         db.session.commit()
-        
+    return {"message": "Admin updated successfully"}, 201   
 
 
     # username = db.Column(db.String(20), unique=True)

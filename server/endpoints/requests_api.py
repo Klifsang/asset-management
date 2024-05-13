@@ -15,7 +15,7 @@ def add_requests():
     request = Requests(asset_id=asset_id, user_id=user_id, admin_id=admin_id, comment=comment, status=status, assigneddate=assigneddate, returndate=returndate, returnstatus=returnstatus)
     db.session.add(request)
     db.session.commit()
-    
+    return {"message": "Request added successfully"}, 201
 def delete_requests():
     data = request.get_json()
     id = data.get('id')
@@ -23,7 +23,7 @@ def delete_requests():
     if rquest:
         db.session.delete(rquest)
         db.session.commit()
-        
+    return {"message": "Request deleted successfully"}, 201   
 
 def patch_requests():
     data = request.get_json()
@@ -33,7 +33,7 @@ def patch_requests():
         for key, value in data.items():
             setattr(rquest, key, value)
         db.session.commit()
-        
+    return {"message": "Request updated successfully"}, 201
     # asset_id = db.Column(db.Integer, db.ForeignKey('assets.id'))
     # user_id = db.Column(db.Integer, db.ForeignKey('employees.id'))
     # admin_id = db.Column(db.Integer, db.ForeignKey('admin.id'))

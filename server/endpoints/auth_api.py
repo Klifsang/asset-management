@@ -1,6 +1,6 @@
 from flask import jsonify, request, session
 from models.employee import Employee
-from models.employee import Admin
+from models.admin import Admin
 
 def login():
     print(session.get("user_id"))

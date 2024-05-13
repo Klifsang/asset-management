@@ -12,6 +12,7 @@ def add_assets():
     
     db.session.add(asset)
     db.session.commit()
+    return {"message": "Asset added successfully"}, 201 
 def delete_assets():
     data = request.get_json()
     id = data.get('id')
@@ -19,7 +20,7 @@ def delete_assets():
     if asset:
         db.session.delete(asset)
         db.session.commit()
-        
+    return {"message": "Asset deleted successfully"}, 201   
 
 def patch_assets():
     data = request.get_json()
@@ -29,7 +30,7 @@ def patch_assets():
         for key, value in data.items():
             setattr(asset, key, value)
         db.session.commit()
-            
+    return {"message": "Asset updated successfully"}, 201
     # assetname = db.Column(db.String)
     # description = db.Column(db.String)
     # condition = db.Column(db.String)

@@ -27,7 +27,7 @@ def delete_employee():
     if employee:
         db.session.delete(employee)
         db.session.commit()
-        
+    return {"message": "Employee deleted successfully"}, 201
 
 def patch_employee():
     data = request.get_json()
@@ -37,7 +37,7 @@ def patch_employee():
         for key, value in data.items():
             setattr(employee, key, value)
         db.session.commit()
-        
+    return {"message": "Employee updated successfully"}, 201 
     # username = db.Column(db.String(80), unique=True, nullable=False)
     # department = db.Column(db.String(80), nullable=False)
     # address = db.Column(db.String(80), nullable=False)
