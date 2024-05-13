@@ -1,7 +1,7 @@
 from flask import request
-from ..models.requests import Requests
-from ..models.databaseconfig import db
-def requests():
+from models.requests import Requests
+from models.databaseconfig import db
+def add_requests():
     data = request.get_json()
     asset_id = data['asset_id']
     user_id = data['user_id']
@@ -16,6 +16,24 @@ def requests():
     db.session.add(request)
     db.session.commit()
     
+def delete_requests():
+    data = request.get_json()
+    id = data.get('id')
+    rquest = Requests.query.filter_by(id=id).first()
+    if rquest:
+        db.session.delete(rquest)
+        db.session.commit()
+        
+
+def patch_requests():
+    data = request.get_json()
+    id = data.get('id')
+    rquest = Requests.query.filter_by(id=id).first()
+    if rquest:
+        for key, value in data.items():
+            setattr(rquest, key, value)
+        db.session.commit()
+        
     # asset_id = db.Column(db.Integer, db.ForeignKey('assets.id'))
     # user_id = db.Column(db.Integer, db.ForeignKey('employees.id'))
     # admin_id = db.Column(db.Integer, db.ForeignKey('admin.id'))

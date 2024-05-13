@@ -1,15 +1,17 @@
+from datetime import timedelta
 from dotenv import load_dotenv
-import os
-
+from models.databaseconfig import db
 load_dotenv()
 
 class ApplicationConfig:
     SECRET_KEY = 'dfsadfdtddasxfta'
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_ECHO = True
+    # SQLALCHEMY_ECHO = True
     SQLALCHEMY_DATABASE_URI = r"sqlite:///./app.sqlite"
 
-    SESSION_TYPE = "filesystem"
-    SESSION_PERMANENT = False
+    SESSION_TYPE = "sqlalchemy"
+    SESSION_SQLALCHEMY = db
+    SESSION_PERMANENT = True
+    PERMANENT_SESSION_LIFETIME = timedelta(minutes=5)
     SESSION_USE_SIGNER = True

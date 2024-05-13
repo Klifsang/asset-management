@@ -1,8 +1,9 @@
 from flask import request
-from ..models.admin import Admin
-from ..models.databaseconfig import db
-from app import bcrypt
+from models.admin import Admin
+from models.databaseconfig import db
+
 def register_admin():
+    from app import bcrypt
     data = request.get_json()
     email = data.get('email')
     password = data.get('password')
@@ -15,6 +16,26 @@ def register_admin():
     db.session.add(admin)
     db.session.commit()
     
+def delete_admin():
+    data = request.get_json()
+    id = data.get('id')
+    admin = Admin.query.filter_by(id=id).first()
+    if admin:
+        db.session.delete(admin)
+        db.session.commit()
+        
+
+def patch_admin():
+    data = request.get_json()
+    id = data.get('id')
+    admin = Admin.query.filter_by(id=id).first()
+    if admin:
+        for key, value in data.items():
+            setattr(admin, key, value)
+        db.session.commit()
+        
+
+
     # username = db.Column(db.String(20), unique=True)
     # password = db.Column(db.String(255))  # Increased length
     # email = db.Column(db.String(255), unique=True)  # Increased length
