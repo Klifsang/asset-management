@@ -18,6 +18,7 @@ def login():
         return jsonify({"error": "Username or password incorrect"}), 401
     
     session["user_id"] = user.id
+    session["user_role"] = "employee"
     print(session.get("user_id"))
     get_current_user()
     return jsonify({
@@ -31,7 +32,7 @@ def get_current_user():
     user_id = session.get("user_id")
     print(user_id)
     if user_id is None:
-        return jsonify({"error": "Unauthorizeduu"}), 401
+        return jsonify({"error": "Unauthorized"}), 401
     
     # user = User.query.filter_by(id=user_id).first()
     return jsonify({
