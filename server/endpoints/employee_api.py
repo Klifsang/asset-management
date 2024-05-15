@@ -38,6 +38,21 @@ def patch_employee():
             setattr(employee, key, value)
         db.session.commit()
     return {"message": "Employee updated successfully"}, 201 
+
+def get_employees():
+    employees = Employee.query.all()
+    if employees:
+        return [
+            {
+                "id": employee.id,
+                "username": employee.username,
+                "department": employee.department,
+                "address": employee.address,
+                "email": employee.email,
+                "phonenumber": employee.phonenumber
+            }
+            for employee in employees
+        ]
     # username = db.Column(db.String(80), unique=True, nullable=False)
     # department = db.Column(db.String(80), nullable=False)
     # address = db.Column(db.String(80), nullable=False)

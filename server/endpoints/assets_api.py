@@ -31,6 +31,20 @@ def patch_assets():
             setattr(asset, key, value)
         db.session.commit()
     return {"message": "Asset updated successfully"}, 201
+
+def get_assets():
+    assets = Assets.query.all()
+    if assets:
+        return [
+            {
+                "id": asset.id,
+                "assetname": asset.assetname,
+                "description": asset.description,
+                "condition": asset.condition,
+                "availability": asset.availability,
+            }
+            for asset in assets
+        ]
     # assetname = db.Column(db.String)
     # description = db.Column(db.String)
     # condition = db.Column(db.String)

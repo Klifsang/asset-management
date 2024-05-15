@@ -12,6 +12,8 @@ class Employee(db.Model, SerializerMixin):
     email = db.Column(db.String(20), unique=True)
     phonenumber = db.Column(db.String(80), nullable=False)
     password = db.Column(db.String(80), nullable=False)
+    # role
+    
     
     # requests = db.relationship("Requests", backref="employee")
 # Table Employee {

@@ -10,6 +10,7 @@ class Assets(db.Model, SerializerMixin):
     description = db.Column(db.String)
     condition = db.Column(db.String)
     availability = db.Column(db.String)
+    # quantity
     
     # requests = db.relationship("Requests", backref="assets")
     

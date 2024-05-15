@@ -34,6 +34,24 @@ def patch_requests():
             setattr(rquest, key, value)
         db.session.commit()
     return {"message": "Request updated successfully"}, 201
+
+def get_requests():
+    requests = Requests.query.all()
+    if requests:
+        return [
+            {
+                "id": request.id,
+                "asset_id": request.asset_id,
+                "user_id": request.user_id,
+                "admin_id": request.admin_id,
+                "comment": request.comment,
+                "status": request.status,
+                "assigneddate": request.assigneddate,
+                "returndate": request.returndate,
+                "returnstatus": request.returnstatus,
+            }
+            for request in requests
+        ]
     # asset_id = db.Column(db.Integer, db.ForeignKey('assets.id'))
     # user_id = db.Column(db.Integer, db.ForeignKey('employees.id'))
     # admin_id = db.Column(db.Integer, db.ForeignKey('admin.id'))

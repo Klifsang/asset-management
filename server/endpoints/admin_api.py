@@ -35,6 +35,20 @@ def patch_admin():
         db.session.commit()
     return {"message": "Admin updated successfully"}, 201   
 
+def get_admins():
+    admins = Admin.query.all()
+    if admins:
+        return [
+            {
+                "id": admin.id,
+                "username": admin.username,
+                "email": admin.email,
+                "phonenumber": admin.phonenumber,
+                "address": admin.address,
+                "role": admin.role,
+            }
+            for admin in admins
+        ]
 
     # username = db.Column(db.String(20), unique=True)
     # password = db.Column(db.String(255))  # Increased length

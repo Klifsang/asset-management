@@ -2,13 +2,14 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 // import Home from "./components/Home";
+import AdminDashboard from "./components/AdminDashboard";
 import Login from "./components/Login";
 import SignUp from './components/Signup'
 import HttpClient from "./HttpClient";
 
 function App() {
   const [loggedIn, setIsLoggedIn] = useState(false);
-  const [showSignUp, setShowSignUp] = useState(true);
+  const [showSignUp, setShowSignUp] = useState(false);
   useEffect(() => {
     async function checkUser() {
       const response = await HttpClient.post(
@@ -32,7 +33,7 @@ function App() {
   return (
     <>
       {loggedIn ? (
-        <Home setIsLoggedIn={setIsLoggedIn}/>
+        <AdminDashboard setIsLoggedIn={setIsLoggedIn}/>
       ) : (
         <>
           {showSignUp ? (
