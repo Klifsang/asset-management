@@ -7,8 +7,8 @@ def add_assets():
     description = data.get('description')
     condition = data.get('condition')
     availability = data.get('availability')
-    
-    asset = Assets(assetname=assetname, description=description, condition=condition, availability=availability)
+    quantity = data.get('quantity')
+    asset = Assets(assetname=assetname, description=description, condition=condition, availability=availability, quantity=quantity)
     
     db.session.add(asset)
     db.session.commit()
@@ -45,7 +45,3 @@ def get_assets():
             }
             for asset in assets
         ]
-    # assetname = db.Column(db.String)
-    # description = db.Column(db.String)
-    # condition = db.Column(db.String)
-    # availability = db.Column(db.String)

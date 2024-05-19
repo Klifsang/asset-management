@@ -13,5 +13,5 @@ class ApplicationConfig:
     SESSION_TYPE = "sqlalchemy"
     SESSION_SQLALCHEMY = db
     SESSION_PERMANENT = True
-    PERMANENT_SESSION_LIFETIME = timedelta(minutes=5)
+    PERMANENT_SESSION_LIFETIME = timedelta(minutes=60)
     SESSION_USE_SIGNER = True

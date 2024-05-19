@@ -1,20 +1,34 @@
 import React, { useEffect, useState } from "react";
 import HttpClient from "../HttpClient";
+import { Link } from "react-router-dom";
+
+// Initialization for ES Users
 
 const UsersContent = () => {
   const [users, setUsers] = useState([]);
+  const [isApproved, setIsApproved] = useState(false);
 
   useEffect(() => {
     async function getUsers() {
-      const response = await HttpClient.get('/user/get')
-      console.log(response.data)
-      setUsers(response.data)
+      const response = await HttpClient.get("api/staff/get");
+      console.log(response.data);
+      setUsers(response.data);
     }
-    getUsers()
-  },[])
+    getUsers();
+  }, []);
+
+  const approve = async function (id) {
+    let newStatus=''
+    setIsApproved(isApproved => !isApproved)
+    if (isApproved) {newStatus='approved'} else {newStatus='suspended'}
+    const response = await HttpClient.patch("api/staff/update", {
+      id: id,
+      status: "approved",
+    });
+    console.log(response.data);
+  };
   return (
-    // <!-- component -->
-    <div className="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 pr-10 lg:px-8">
+    <div className="h-full overflow-auto -my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 pr-10 lg:px-8">
       <div className="align-middle rounded-tl-lg rounded-tr-lg inline-block w-full py-4 overflow-hidden bg-white shadow-lg px-12">
         <div className="flex justify-between">
           <div className="inline-flex border rounded w-7/12 px-2 lg:px-6 h-12 bg-transparent">
@@ -80,110 +94,63 @@ const UsersContent = () => {
           </thead>
           <tbody className="bg-white">
             {users.map((user) => (
-            <tr key={user.id}>
-              <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
-                <div className="flex items-center">
-                  <div>
-                    <div className="text-sm leading-5 text-gray-800">#{user.id}</div>
+              <tr key={user.id}>
+                <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
+                  <div className="flex items-center">
+                    <div className="text-sm leading-5 text-gray-800">
+                      #{user.id}
+                    </div>
                   </div>
-                </div>
-              </td>
-              <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
-                <div className="text-sm leading-5 text-blue-900">
-                {user.username}
-                </div>
-              </td>
-              <td className="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
-              {user.email}
-              </td>
-              <td className="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
-              {user.phonenumber}
-              </td>
-              <td className="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
-                <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                  <span
-                    aria-hidden
-                    className="absolute inset-0 bg-green-200 opacity-50 rounded-full"
-                  ></span>
-                  <span className="relative text-xs">active</span>
-                </span>
-              </td>
-              <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500 text-blue-900 text-sm leading-5">
-                September 12
-              </td>
-              <td className="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-500 text-sm leading-5">
-                <button className="px-5 py-2 border-blue-500 border text-blue-500 rounded transition duration-300 hover:bg-blue-700 hover:text-white focus:outline-none">
-                  View Details
-                </button>
-              </td>
-            </tr>
+                </td>
+                <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
+                  <div className="flex items-center">
+                    <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
+                      <img
+                        className="rounded-full"
+                        src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"
+                        width="40"
+                        height="40"
+                        alt="Alex Shatov"
+                      />
+                    </div>
+                    <div className="font-medium text-gray-800">
+                    <Link to={`/profile/${user.id}`}>
+                      {user.username}
+                      </Link>
+                    </div>
+                  </div>
+                </td>
+                <td className="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
+                  {user.email}
+                </td>
+                <td className="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
+                  {user.phonenumber}
+                </td>
+                <td className="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
+                  <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                    <span
+                      aria-hidden
+                      className="absolute inset-0 bg-green-200 opacity-50 rounded-full"
+                    ></span>
+                    <span className="relative text-xs">{user.status}</span>
+                  </span>
+                </td>
+                <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500 text-blue-900 text-sm leading-5">
+                  September 12
+                </td>
+                <td className="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-500 text-sm leading-5">
+                  <button
+                  onClick={() => approve(user.id)}
+                    className="text-teal-500 bg-transparent border border-solid border-teal-500 hover:bg-teal-500 hover:text-white active:bg-teal-600 font-bold uppercase text-xs rounded-full outline-none focus:outline-none ease-linear transition-all duration-150"
+                    type="button"
+                  >
+                    Approve
+                  </button>
+                </td>
+              </tr>
             ))}
           </tbody>
         </table>
-        <div className="sm:flex-1 sm:flex sm:items-center sm:justify-between mt-4 work-sans">
-          <div>
-            <nav className="relative z-0 inline-flex shadow-sm">
-              <div>
-                <a
-                  href="#"
-                  className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-500 hover:text-gray-400 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150"
-                  aria-label="Previous"
-                >
-                  <svg
-                    className="h-5 w-5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                </a>
-              </div>
-              <div>
-                <a
-                  href="#"
-                  className="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm leading-5 font-medium text-blue-700 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-tertiary active:text-gray-700 transition ease-in-out duration-150 hover:bg-tertiary"
-                >
-                  1
-                </a>
-                <a
-                  href="#"
-                  className="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm leading-5 font-medium text-blue-600 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-tertiary active:text-gray-700 transition ease-in-out duration-150 hover:bg-tertiary"
-                >
-                  2
-                </a>
-                <a
-                  href="#"
-                  className="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm leading-5 font-medium text-blue-600 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-tertiary active:text-gray-700 transition ease-in-out duration-150 hover:bg-tertiary"
-                >
-                  3
-                </a>
-              </div>
-              <div v-if="pagination.current_page < pagination.last_page">
-                <a
-                  href="#"
-                  className="-ml-px relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-500 hover:text-gray-400 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150"
-                  aria-label="Next"
-                >
-                  <svg
-                    className="h-5 w-5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                </a>
-              </div>
-            </nav>
-          </div>
-        </div>
       </div>
     </div>
   );

@@ -4,13 +4,15 @@ import HttpClient from "../HttpClient";
 export default function Login({ toggleSignUp, setIsLoggedIn }) {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [authcode, setAuthcode] = useState("");
   const handleLogin = async (e) => {
     e.preventDefault()
     try {
       const response = await HttpClient.post(
-        "http://127.0.0.1:5000/user/login",
+        "api/user/login",
         {
           username: username,
+          authcode: authcode,
           password: password,
         }
       );
@@ -26,9 +28,9 @@ export default function Login({ toggleSignUp, setIsLoggedIn }) {
     }
   };
   return (
-      <div className="container">
+      <div className="container h-full overflow-auto">
         <div className="brand-logo"></div>
-        <div className="brand-title">Asset Ace</div>
+        <div className="brand-title text-center">Asset Ace</div>
         <div className="inputs">
           <label htmlFor="email">User Name</label>
           <div>
@@ -41,9 +43,20 @@ export default function Login({ toggleSignUp, setIsLoggedIn }) {
             />
           </div>
         </div>
-
-        <div>
+        <div className="inputs">
+          <label htmlFor="authcode">Aythorization Code</label>
           <div>
+            <input
+              id="authcode"
+              name="authcode"
+              type="text"
+              onChange={(e) => setAuthcode(e.target.value)}
+              required
+            />
+          </div>
+        </div>
+
+          <div className="inputs">
             <label htmlFor="password">Password</label>
             <div>
               <input
@@ -55,7 +68,6 @@ export default function Login({ toggleSignUp, setIsLoggedIn }) {
               />
             </div>
           </div>
-        </div>
 
         <div>
           <button type="submit" onClick={handleLogin}>

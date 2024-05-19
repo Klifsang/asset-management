@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, session
 from models.admin import Admin
 from models.databaseconfig import db
 
@@ -7,27 +7,30 @@ def register_admin():
     data = request.get_json()
     email = data.get('email')
     password = data.get('password')
-    usernames = data.get('usernames')
+    authcode = data.get('authcode')
+    username = data.get('username')
     phonenumber = data.get('phonenumber')
     address = data.get('address')
     role = data.get('role')
+    level = data.get('level')
     
-    admin = Admin(email=email, password=bcrypt.generate_password_hash(password), username=usernames, phonenumber=phonenumber, address=address, role=role)
+    admin = Admin(email=email, password=bcrypt.generate_password_hash(password),authcode=bcrypt.generate_password_hash(authcode), username=username, phonenumber=phonenumber, address=address, role=role, level=level)
     db.session.add(admin)
     db.session.commit()
     return {"message": "Admin added successfully"}, 201 
 def delete_admin():
-    data = request.get_json()
-    id = data.get('id')
+    id = session.get("user_id")
     admin = Admin.query.filter_by(id=id).first()
     if admin:
         db.session.delete(admin)
         db.session.commit()
+        session.pop("user_id", None)
+        session.pop("user_level", None)
     return {"message": "Admin deleted successfully"}, 201   
 
 def patch_admin():
     data = request.get_json()
-    id = data.get('id')
+    id = session.get("user_id")
     admin = Admin.query.filter_by(id=id).first()
     if admin:
         for key, value in data.items():
@@ -49,10 +52,3 @@ def get_admins():
             }
             for admin in admins
         ]
-
-    # username = db.Column(db.String(20), unique=True)
-    # password = db.Column(db.String(255))  # Increased length
-    # email = db.Column(db.String(255), unique=True)  # Increased length
-    # phonenumber = db.Column(db.String(20), unique=True)
-    # address = db.Column(db.String(255))  # Increased length
-    # role = db.Column(db.String(50))  # Increased length

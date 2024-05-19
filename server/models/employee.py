@@ -1,7 +1,6 @@
-from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_serializer import SerializerMixin
 from app import db
-
+    
 class Employee(db.Model, SerializerMixin):
     __tablename__ = 'employees'
     
@@ -12,14 +11,10 @@ class Employee(db.Model, SerializerMixin):
     email = db.Column(db.String(20), unique=True)
     phonenumber = db.Column(db.String(80), nullable=False)
     password = db.Column(db.String(80), nullable=False)
-    # role
-    
-    
-    # requests = db.relationship("Requests", backref="employee")
-# Table Employee {
-#   id integer
-#   username varchar
-#   department varchar
-#   address varchar
-#   phonenumber varchar
-# }
+    role = db.Column(db.String(80), nullable=False)
+    level = db.Column(db.String(50))
+    status = db.Column(db.String)
+    admin_id = db.Column(db.Integer, db.ForeignKey('admin.id'))  # Relationship with Admin
+
+    admin = db.relationship("Admin", back_populates="employees")  # Relationship definition
+    requests = db.relationship('Requests', back_populates='employee')

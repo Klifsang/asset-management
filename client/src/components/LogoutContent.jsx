@@ -5,7 +5,7 @@ const LogoutContent = ({setIsLoggedIn}) => {
   useEffect(() => {
     const logOut = async () => {
       try {
-        const response = await HttpClient.post("http://127.0.0.1:5000/logout", {
+        const response = await HttpClient.post("api/logout", {
           withCredentials: true,
         });
         console.log(response); // Assuming the response contains a 'data' field

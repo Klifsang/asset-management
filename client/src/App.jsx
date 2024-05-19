@@ -13,7 +13,7 @@ function App() {
   useEffect(() => {
     async function checkUser() {
       const response = await HttpClient.post(
-        "http://127.0.0.1:5000/checksession"
+        "api/checksession"
       );
       console.log(response.data.id); // Assuming the response contains a 'data' field
       if (response.data.id) {

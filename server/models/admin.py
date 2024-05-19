@@ -6,22 +6,13 @@ class Admin(db.Model, SerializerMixin):
     
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True)
-    password = db.Column(db.String(255))  # Increased length
-    email = db.Column(db.String(255), unique=True)  # Increased length
+    password = db.Column(db.String(255))
+    authcode = db.Column(db.String(80))
+    email = db.Column(db.String(255), unique=True)
     phonenumber = db.Column(db.String(20), unique=True)
-    address = db.Column(db.String(255))  # Increased length
-    role = db.Column(db.String(50))  # Increased length
+    address = db.Column(db.String(255)) 
+    role = db.Column(db.String(50))
+    level = db.Column(db.String(50))
     
-    # requests = db.relationship("Requests", backref="admin")
-    def __repr__(self):
-        return f"<Admin {self.username}>"
-
-
-# Table Admin {
-#   id integer
-#   username varchar
-#   email varchar
-#   position varchar
-#   address varchar
-#   phonenumber varchar
-# }
+    employees = db.relationship('Employee', back_populates='admin')
+    requests = db.relationship('Requests', back_populates='admin')
