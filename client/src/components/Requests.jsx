@@ -1,5 +1,44 @@
 import React, { useEffect, useState } from "react";
 import HttpClient from "../HttpClient";
+import { UserOutlined } from '@ant-design/icons';
+import { Dropdown, message, Space } from 'antd';
+
+
+
+
+const handleButtonClick = (e) => {
+  message.info('Click on left button.');
+  console.log('click left button', e);
+};
+const handleMenuClick = (e) => {
+  message.info('Click on menu item.');
+  console.log('click', e);
+};
+const items = [
+  {
+    label: 'Approve',
+    key: '1',
+  },
+  {
+    label: 'Recall',
+    key: '2',
+    danger: true,
+  },
+
+];
+const menuProps = {
+  items,
+  onClick: handleMenuClick,
+};
+const ApproveButton = () => (
+  <Space wrap>
+    <Dropdown.Button menu={menuProps} onClick={handleButtonClick}>
+      Review
+    </Dropdown.Button>
+  </Space>
+);
+
+
 
 const Requests = () => {
   const [requests, setRequests] = useState([]);
@@ -102,13 +141,14 @@ const Requests = () => {
                   September 12
                 </td>
                 <td className="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-500 text-sm leading-5">
-                  <button
+                  {/* <button
                     onClick={() => approve(request.id)}
                     className="text-teal-500 bg-transparent border border-solid border-teal-500 hover:bg-teal-500 hover:text-white active:bg-teal-600 font-bold uppercase text-xs rounded-full outline-none focus:outline-none ease-linear transition-all duration-150"
                     type="button"
                   >
                     Approve
-                  </button>
+                  </button> */}
+                  <ApproveButton />
                 </td>
               </tr>
             ))}
