@@ -3,7 +3,7 @@ from server.models.employee import Employee
 from server.models.admin import Admin
 
 def login():
-    from app import bcrypt
+    from server.app import bcrypt
     data = request.get_json()
     print(data)
     username = data.get('username')
