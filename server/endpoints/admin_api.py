@@ -1,6 +1,6 @@
 from flask import request, session
-from models.admin import Admin
-from models.databaseconfig import db
+from server.models.admin import Admin
+from server.models.databaseconfig import db
 
 def register_admin():
     from app import bcrypt

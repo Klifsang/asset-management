@@ -1,6 +1,6 @@
 from datetime import timedelta
 from dotenv import load_dotenv
-from models.databaseconfig import db
+from server.models.databaseconfig import db
 load_dotenv()
 
 class ApplicationConfig:

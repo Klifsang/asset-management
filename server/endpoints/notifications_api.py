@@ -1,6 +1,6 @@
 from flask import jsonify, request, session
-from models.Notifications import Notifications
-from app import db
+from server.models.Notifications import Notifications
+from server.app import db
 
 def get_notifications():
     """

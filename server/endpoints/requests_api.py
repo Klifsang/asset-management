@@ -1,7 +1,7 @@
 from flask import request, session
-from models.requests import Requests
-from models.databaseconfig import db
-from models.Notifications import Notifications
+from server.models.requests import Requests
+from server.models.databaseconfig import db
+from server.models.Notifications import Notifications
 def add_requests():
     data = request.get_json()
     asset_id = data['assetId']

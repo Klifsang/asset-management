@@ -1,6 +1,6 @@
 from flask import request
-from models.assets import Assets
-from models.databaseconfig import db
+from server.models.assets import Assets
+from server.models.databaseconfig import db
 def add_assets():
     data = request.get_json()
     assetname = data.get('assetname')

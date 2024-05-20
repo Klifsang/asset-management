@@ -1,5 +1,5 @@
 import datetime
-from app import bcrypt, app
+from server.app import bcrypt, app
 
 with app.app_context():
     from models.admin import Admin

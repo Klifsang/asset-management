@@ -1,6 +1,6 @@
 from flask import jsonify, request, session
-from models.employee import Employee
-from models.admin import Admin
+from server.models.employee import Employee
+from server.models.admin import Admin
 
 def login():
     from app import bcrypt

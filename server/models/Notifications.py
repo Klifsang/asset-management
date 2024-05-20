@@ -1,5 +1,5 @@
 from sqlalchemy_serializer import SerializerMixin
-from app import db
+from server.app import db
 
 class Notifications(db.Model, SerializerMixin):
     __tablename__ = 'notifications'
