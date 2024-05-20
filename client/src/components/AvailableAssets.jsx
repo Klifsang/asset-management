@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import HttpClient from "../HttpClient";
-
 import { Button, Modal } from "antd";
-const AddAsset = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
+const AddAsset = ({getAssets}) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [assetname, setAssetName] = useState("");
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState("");
@@ -16,6 +15,7 @@ const AddAsset = () => {
       quantity: quantity,
       condition: condition,
     }).then((res) => {
+      getAssets();
       console.log(res);
     });
   };
@@ -42,10 +42,13 @@ const AddAsset = () => {
       <Modal
         title="Add Asset"
         open={isModalOpen}
+        okText="Submit Asset"
+        cancelText="Cancel"
+        closable={false}
         onOk={handleOk}
         onCancel={handleCancel}
       >
-        <div className="modalcontainer text-center">
+        <div className="container text-center">
           <div className="inputs">
             <label htmlFor="assetname">Asset Name</label>
             <div>
@@ -103,12 +106,13 @@ const AddAsset = () => {
 const AvailableAssets = () => {
   const [assets, setAssets] = useState([]);
 
+ const getAssets = async () => {
+    const response = await HttpClient.get("api/assets/get");
+    console.log(response.data);
+    setAssets(response.data);
+  }
+
   useEffect(() => {
-    async function getAssets() {
-      const response = await HttpClient.get("api/assets/get");
-      console.log(response.data);
-      setAssets(response.data);
-    }
     getAssets();
   }, []);
 
@@ -124,8 +128,7 @@ const AvailableAssets = () => {
 
   return (
     <div className="container h-full overflow-auto">
-      <AddAsset />
-
+      <AddAsset getAssets={getAssets}/>
       <button className="border border-solid mb-3 bg-teal-500 text-white font-bold uppercase text-xs outline-none focus:outline-none ease-linear transition-all duration-150">
         Assets
       </button>

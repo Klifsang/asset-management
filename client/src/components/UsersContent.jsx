@@ -7,13 +7,12 @@ import { Link } from "react-router-dom";
 const UsersContent = () => {
   const [users, setUsers] = useState([]);
   const [isApproved, setIsApproved] = useState(false);
-
+  const getUsers = async () => {
+    const response = await HttpClient.get("api/staff/get");
+    console.log(response.data);
+    setUsers(response.data);
+  }
   useEffect(() => {
-    async function getUsers() {
-      const response = await HttpClient.get("api/staff/get");
-      console.log(response.data);
-      setUsers(response.data);
-    }
     getUsers();
   }, []);
 
@@ -25,6 +24,7 @@ const UsersContent = () => {
       id: id,
       status: "approved",
     });
+    getUsers();
     console.log(response.data);
   };
   return (

@@ -37,11 +37,10 @@ body {
   background: #ecf0f3;
   float: left;
 }
-
-.ant-modal-content{
+.ant-modal-body {
   text-align: center;
+  align-items: center;
 }
-
 .brand-logo {
   height: 100px;
   width: 100px;

@@ -1,71 +1,131 @@
 import React, { useEffect, useState } from "react";
 import HttpClient from "../HttpClient";
-import { UserOutlined } from '@ant-design/icons';
-import { Dropdown, message, Space } from 'antd';
 
+import { Button, Modal } from "antd";
+const AddSpecialRequest = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const [assetname, setAssetName] = useState("");
+  const [description, setDescription] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [condition, setCondition] = useState("");
+  const submitAsset = async () => {
+    const response = await HttpClient.post("api/assets/add", {
+      assetname: assetname,
+      description: description,
+      quantity: quantity,
+      condition: condition,
+    }).then((res) => {
+      console.log(res);
+    });
+  };
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    submitAsset();
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+  return (
+    <>
+      <Button
+        type="primary"
+        onClick={showModal}
+        className="max-w-48 text-teal-500 bg-transparent border border-solid border-teal-500 hover:bg-teal-500 hover:text-white active:bg-teal-600 font-bold text-xs rounded-full outline-none focus:outline-none ease-linear transition-all duration-150"
+      >
+        Add Special Request
+      </Button>
 
-
-const handleButtonClick = (e) => {
-  message.info('Click on left button.');
-  console.log('click left button', e);
+      <Modal
+        title="Add Asset"
+        open={isModalOpen}
+        okText="Submit Asset"
+        cancelText="Cancel"
+        closable={false}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <div className="container text-center">
+          <div className="inputs">
+            <label htmlFor="assetname">Asset Name</label>
+            <div>
+              <input
+                id="assetname"
+                name="assetname"
+                type="text"
+                onChange={(e) => setAssetName(e.target.value)}
+                required
+              />
+            </div>
+          </div>
+          <div className="inputs">
+            <label htmlFor="description">Description</label>
+            <div>
+              <input
+                id="description"
+                name="description"
+                type="text"
+                onChange={(e) => setDescription(e.target.value)}
+                required
+              />
+            </div>
+          </div>
+          <div className="inputs">
+            <label htmlFor="condition">Condition</label>
+            <div>
+              <input
+                id="condition"
+                name="condition"
+                type="text"
+                onChange={(e) => setCondition(e.target.value)}
+                required
+              />
+            </div>
+          </div>
+          <div className="inputs">
+            <label htmlFor="quantity">Quantity</label>
+            <div>
+              <input
+                id="quantity"
+                name="quantity"
+                type="text"
+                onChange={(e) => setQuantity(e.target.value)}
+                required
+              />
+            </div>
+          </div>
+        </div>
+      </Modal>
+    </>
+  );
 };
-const handleMenuClick = (e) => {
-  message.info('Click on menu item.');
-  console.log('click', e);
-};
-const items = [
-  {
-    label: 'Approve',
-    key: '1',
-  },
-  {
-    label: 'Recall',
-    key: '2',
-    danger: true,
-  },
-
-];
-const menuProps = {
-  items,
-  onClick: handleMenuClick,
-};
-const ApproveButton = () => (
-  <Space wrap>
-    <Dropdown.Button menu={menuProps} onClick={handleButtonClick}>
-      Review
-    </Dropdown.Button>
-  </Space>
-);
-
-
 
 const Requests = () => {
   const [requests, setRequests] = useState([]);
 
+ const getRequests = async () => {
+    const response = await HttpClient.get("api/requests/get");
+    setRequests(response.data);
+  }
+
   useEffect(() => {
-    async function getRequests() {
-      const response = await HttpClient.get("api/requests/get");
-      console.log(response.data);
-      setRequests(response.data);
-    }
     getRequests();
   }, []);
+
+
   const approve = async (id) => {
     const response = await HttpClient.patch("api/requests/update", {
       id: id,
-      status: "approved",
+      status: "Declined",
     });
-    console.log(response.data);
+    getRequests();
   };
   return (
     <div className="h-full overflow-auto -my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 pr-10 lg:px-8">
-      <button
-        className="max-w-24 text-teal-500 bg-transparent border border-solid border-teal-500 hover:bg-teal-500 hover:text-white active:bg-teal-600 font-bold text-xs rounded-full outline-none focus:outline-none ease-linear transition-all duration-150"
-        type="button"
-      >
-        Add Special Request
-      </button>
+      <AddSpecialRequest />
 
       <button className="border border-solid bg-teal-500 text-white font-bold uppercase text-xs outline-none focus:outline-none ease-linear transition-all duration-150">
         Requests
@@ -141,14 +201,13 @@ const Requests = () => {
                   September 12
                 </td>
                 <td className="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-500 text-sm leading-5">
-                  {/* <button
+                  <button
                     onClick={() => approve(request.id)}
                     className="text-teal-500 bg-transparent border border-solid border-teal-500 hover:bg-teal-500 hover:text-white active:bg-teal-600 font-bold uppercase text-xs rounded-full outline-none focus:outline-none ease-linear transition-all duration-150"
                     type="button"
                   >
                     Approve
-                  </button> */}
-                  <ApproveButton />
+                  </button>
                 </td>
               </tr>
             ))}
