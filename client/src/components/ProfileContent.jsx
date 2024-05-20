@@ -23,7 +23,7 @@ const ProfileContent = () => {
 
   useEffect(() => {
     async function getAssets() {
-      const response = await HttpClient.post("api/staff/getstaff", {
+      const response = await HttpClient.get("api/staff/getstaff", {
         id: id,
       });
       setProfile(response.data);

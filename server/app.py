@@ -1,5 +1,5 @@
 # app.py
-from flask import Flask, jsonify, send_from_directory, session
+from flask import Flask, jsonify, redirect, send_from_directory, session, url_for
 from functools import wraps
 from flask_cors import CORS
 from flask_migrate import Migrate
@@ -52,17 +52,20 @@ def is_admin(f):
         return f(*args, **kwargs)
     return decorated_function
 
+# @app.route('/', defaults={'path': ''})
+# @app.route('/<path:path>')
+# def serve(path):
+#     if path != "" and path.startswith('api'):
+#         return "API route", 404
+#     return send_from_directory(app.static_folder, 'index.html')
 
-
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
-def serve(path):
-    if path != "" and path.startswith('api'):
-        return "API route", 404
+@app.route('/', methods=['GET', 'POST'])
+def index():
     return send_from_directory(app.static_folder, 'index.html')
-
-
-
+# Catch-all route for handling unavailable routes
+@app.errorhandler(404)
+def page_not_found(e):
+    return redirect(url_for('index'))
 
 
 
