@@ -32,7 +32,7 @@ Session(app)
 migrate = Migrate(app, db)
 # db.create_all()
 
-from models import admin, assets, requests, employee, Notifications
+from server.models import admin, assets, requests, employee, Notifications
 
 def login_required(f):
     @wraps(f)
