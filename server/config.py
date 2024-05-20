@@ -7,7 +7,8 @@ class ApplicationConfig:
     SECRET_KEY = 'dfsadfdtddasxfta'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     # SQLALCHEMY_ECHO = True
-    SQLALCHEMY_DATABASE_URI = r"sqlite:///./app.sqlite"
+    # postgresql://postgres:DWJNNRBfzxviIeroiZkubofqvDueDhUy@viaduct.proxy.rlwy.net:21766/railway
+    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:DWJNNRBfzxviIeroiZkubofqvDueDhUy@viaduct.proxy.rlwy.net:21766/railway' #r"sqlite:///./app.sqlite"
 
     SESSION_TYPE = "sqlalchemy"
     SESSION_SQLALCHEMY = db
