@@ -5,12 +5,12 @@ class Employee(db.Model, SerializerMixin):
     __tablename__ = 'employees'
     
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    department = db.Column(db.String(80), nullable=False)
-    address = db.Column(db.String(80), nullable=False)
-    email = db.Column(db.String(20), unique=True)
-    phonenumber = db.Column(db.String(80), nullable=False)
-    password = db.Column(db.String(80), nullable=False)
+    username = db.Column(db.String(255), unique=True, nullable=False)
+    department = db.Column(db.String(255), nullable=False)
+    address = db.Column(db.String(255), nullable=False)
+    email = db.Column(db.String(255), unique=True)
+    phonenumber = db.Column(db.String(255), nullable=False)
+    password = db.Column(db.String(1000), nullable=False)
     role = db.Column(db.String(80), nullable=False)
     level = db.Column(db.String(50))
     status = db.Column(db.String)
