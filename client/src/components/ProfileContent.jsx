@@ -22,13 +22,14 @@ const ProfileContent = () => {
   const [isDisabled, setIsDisabled] = useState(true);
 
   useEffect(() => {
-    async function getAssets() {
+    async function getUser() {
       const response = await HttpClient.get("api/staff/getstaff", {
         id: id,
       });
+      console.log(response);
       setProfile(response.data);
     }
-    getAssets();
+    getUser();
   }, []);
 
   const handleInputChange = (e) => {

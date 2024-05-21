@@ -3,7 +3,7 @@ from server.models.employee import Employee
 from server.models.databaseconfig import db
 
 def register_employee():
-    from app import bcrypt
+    from server.app import bcrypt
     data = request.get_json()
     username = data.get('username')
     department = data.get('department')
